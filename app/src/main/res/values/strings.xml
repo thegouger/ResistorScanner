@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Resistor Scanner</string>
+
+    <string name="dialog_message">Position the red line over the colour bands of the resistor,
+        keeping the tolerance band to the right</string>
+    <string name="dialog_title">How to scan resistors</string>
+    <string name="dialog_ok">OK</string>
+    <string name="action_settings">Settings</string>
+</resources>

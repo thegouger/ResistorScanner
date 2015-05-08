@@ -1,0 +1,56 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+        config {
+            keyAlias 'Blah'
+            keyPassword 'xxx'
+            storeFile file('/home/somelocation/keys.jks')
+            storePassword 'xxx'
+        }
+    }
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'armeabi', 'armeabi-v7a'
+            universalApk false
+        }
+    }
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
+    defaultConfig {
+        applicationId "ca.parth.resistordecoder"
+        minSdkVersion 17
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+        signingConfig signingConfigs.config
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors {
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile project(':openCVLibrary2410')
+}
+
+ext.versionCodes = [armeabi:1, 'armeabi-v7a':3]
+
+import com.android.build.OutputFile
+
+android.applicationVariants.all { variant ->
+    // assign different version code for each output
+    variant.outputs.each { output ->
+        int abiVersionCode = project.ext.versionCodes.get(output.getFilter(OutputFile.ABI)) ?: 0
+        output.versionCodeOverride = (abiVersionCode * 1000) + android.defaultConfig.versionCode
+    }
+}
