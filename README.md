@@ -27,3 +27,6 @@ The resistor value is then calculated by iterating through the x-coords of the c
 and using their associated codes. (This requires the resistor tolerance band to be placed on the right side).
 
 Note that this app works best when the resistors are on a light background.
+
+## Demo
+[App demo](https://www.youtube.com/watch?v=h_bITwduLPk)
