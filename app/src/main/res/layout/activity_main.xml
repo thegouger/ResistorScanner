@@ -15,6 +15,14 @@
         android:visibility="gone"
         android:id="@+id/ResistorCameraView"
         opencv:show_fps="false"
-        opencv:camera_id="any" />
+        opencv:camera_id="any"
+        tools:context=".MainActivity"/>
+
+    <SeekBar
+        android:layout_width="@dimen/abc_config_prefDialogWidth"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ResistorCameraView"
+        android:layout_centerInParent="true"
+        android:id="@+id/CameraZoomControls"/>
 
 </RelativeLayout>

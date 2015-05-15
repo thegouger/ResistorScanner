@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.SurfaceView;
+import android.widget.SeekBar;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
@@ -44,6 +45,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
         setContentView(R.layout.activity_main);
         _resistorCameraView = (ResistorCameraView) findViewById(R.id.ResistorCameraView);
         _resistorCameraView.setVisibility(SurfaceView.VISIBLE);
+        _resistorCameraView.setZoomControl((SeekBar) findViewById(R.id.CameraZoomControls));
         _resistorCameraView.setCvCameraViewListener(this);
 
         _resistorProcessor = new ResistorImageProcessor();
@@ -63,7 +65,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
                     .create().show();
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean("shownInstructions", true);
-            editor.commit();
+            editor.apply();
         }
     }
 

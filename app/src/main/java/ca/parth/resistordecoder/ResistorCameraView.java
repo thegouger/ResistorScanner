@@ -1,8 +1,10 @@
 package ca.parth.resistordecoder;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.util.AttributeSet;
+import android.widget.SeekBar;
 
 import org.opencv.android.JavaCameraView;
 
@@ -19,6 +21,54 @@ public class ResistorCameraView extends JavaCameraView {
 
     public ResistorCameraView(Context context, AttributeSet attrs) {
         super(context, attrs);
+    }
+
+    protected SeekBar _zoomControl;
+
+    public void setZoomControl(SeekBar zoomControl)
+    {
+        _zoomControl = zoomControl;
+    }
+
+    protected void enableZoomControls(Camera.Parameters params)
+    {
+        final SharedPreferences settings = getContext().getSharedPreferences("ZoomCtl", 0);
+
+        // set zoom level to previously set level if available, otherwise maxZoom
+        final int maxZoom = params.getMaxZoom();
+        int currentZoom = settings.getInt("ZoomLvl", -1);
+        if(currentZoom == -1) currentZoom = maxZoom;
+        params.setZoom(currentZoom);
+
+        if(_zoomControl == null) return;
+
+        _zoomControl.setMax(maxZoom);
+        _zoomControl.setProgress(currentZoom);
+        _zoomControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                Camera.Parameters params = mCamera.getParameters();
+                params.setZoom(progress);
+                mCamera.setParameters(params);
+
+                if (settings != null)
+                {
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putInt("ZoomLvl", progress);
+                    editor.apply();
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     // zoom in and enable flash
@@ -44,7 +94,9 @@ public class ResistorCameraView extends JavaCameraView {
             params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
         }
 
-        params.setZoom(params.getMaxZoom());
+        if(params.isZoomSupported())
+            enableZoomControls(params);
+
         mCamera.setParameters(params);
 
         return ret;
