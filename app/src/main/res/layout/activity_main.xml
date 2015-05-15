@@ -19,7 +19,9 @@
         tools:context=".MainActivity"/>
 
     <SeekBar
-        android:layout_width="@dimen/abc_config_prefDialogWidth"
+        android:layout_width="match_parent"
+        android:paddingLeft="@dimen/seekbar_horizontal_margin"
+        android:paddingRight="@dimen/seekbar_horizontal_margin"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/ResistorCameraView"
         android:layout_centerInParent="true"

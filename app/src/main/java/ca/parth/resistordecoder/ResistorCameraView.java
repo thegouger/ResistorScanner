@@ -36,8 +36,7 @@ public class ResistorCameraView extends JavaCameraView {
 
         // set zoom level to previously set level if available, otherwise maxZoom
         final int maxZoom = params.getMaxZoom();
-        int currentZoom = settings.getInt("ZoomLvl", -1);
-        if(currentZoom == -1) currentZoom = maxZoom;
+        int currentZoom = settings.getInt("ZoomLvl", maxZoom);
         params.setZoom(currentZoom);
 
         if(_zoomControl == null) return;
